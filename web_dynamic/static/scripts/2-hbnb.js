@@ -3,10 +3,10 @@ let tex = []
 function get() {
 	$.get("http://0.0.0.0:5001/api/v1/status/", function(data) {
 		if (data.status === "OK") {
-			document.getElementById("#api_status").classList.add("available")
+			$("#api_status").addClass("available")
 		}
 		else {
-			document.getElementById("#api_status").classList.remove("available")
+			$("#api_status").removeClass("available")
 		}
 	});
 }
