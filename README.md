@@ -155,6 +155,7 @@ No known bugs at this time.
 
 ## Authors
 Yosef Kefale - [Github](https://github.com/livejo)
+Philimon Derib - [Github](https://github.com/philimon-reset)
 
 Second part of Airbnb: Joann Vuong
 ## License
