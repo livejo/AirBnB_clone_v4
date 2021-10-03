@@ -1,7 +1,16 @@
-let list_T = [];
+let list_A = [];
+let list_S = [];
 let tex = [];
 let id_A = [];
-let clon = id_A.slice();
+let id_S = [];
+let id_C = [];
+let header_placement = {"amenity":$( "#AM" ), "state":$( "#CS" )}
+let total_placement =  {"amenity":list_A, "state":list_S}
+let search_placement = {"amenity":id_A, "state":id_S, "city":id_C}
+let list_T = total_placement["amenity"];
+let head = header_placement["amenity"]
+let id = search_placement["amenity"];
+
 function search_and_display() {
 	$.get("http://127.0.0.1:5001/api/v1/status/", function(data) {
 		if (data.status === "OK") {
@@ -14,15 +23,15 @@ function search_and_display() {
 	$("button").click(function () {
 		let $this = $(this);
 		$(".places").html("")
-		display_all_or_filter(id_A)
+		display_all_or_filter(id_A, id_S, id_C)
 	})
 }
 
-function display_all_or_filter(id_A) {
+function display_all_or_filter(id_A, id_S, id_C) {
 	$.ajax({
 		url:"http://127.0.0.1:5001/api/v1/places_search",
 		type:"POST",
-		data: JSON.stringify({"amenities":id_A}),
+		data: JSON.stringify({"amenities":id_A, "cities":id_C, "states":id_S}),
 		contentType:"application/json",
 		dataType:"json",
 		success: function(data){
@@ -46,14 +55,18 @@ function display_all_or_filter(id_A) {
 }
 function select() {
 	$('input[type="checkbox"]').click(function(){
+		list_T = total_placement[$(this).prop('id')]
+		head = header_placement[$(this).prop('id')]
+		alert(list_T)
+		id = search_placement[$(this).prop('id')]
 		if($(this).prop("checked") == true){
 			list_T.push($(this).attr("data-name"))
-			id_A.push($(this).attr("data-id"))
+			id.push($(this).attr("data-id"))
 			if (list_T > 3) {
-				$( "AM" ).text( tex )
+				head.text( tex )
 			}
 			else {
-			$( "#AM" ).text( list_T )
+				head.text( list_T )
 			}
 		}
 		else {
@@ -64,10 +77,10 @@ function select() {
 				}
 			}
 			if (list_T > 3) {
-				$( "AM" ).text( tex )
+				$head.text( tex )
 			}
 			else {
-			$( "#AM" ).text( list_T )
+			$head.text( list_T )
 			}
 		}
 		trim()
